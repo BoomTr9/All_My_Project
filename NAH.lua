@@ -68,61 +68,98 @@ local areaTPSelect = ""
 --[ V ]
 local Tween = game:GetService("TweenService")
 local MyLevel = game.Players.LocalPlayer.Data.Level.Value
+local AreaON = game:GetService("Players").LocalPlayer.Data.LastSpawnPoint.Value
 
 --[ Function ]
-local AreaForFarm = nil
+local function tweenwarp(pos, vec)
+	local infowarp = TweenInfo.new(((vec - game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).Magnitude / 350), Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
+	local start = Tween:Create(game.Players.LocalPlayer.Character.HumanoidRootPart, infowarp, {CFrame = pos})
+	local twstatus = true
+	start:Play()
+	spawn(function()
+		local Part = Instance.new("Part")
+		Part.Parent = game:GetService("Workspace")
+		Part.Position = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position
+		Part.Size = Vector3.new(5, 1, 5)
+		Part.Anchored = true
+		while twstatus do
+			Part.Position = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position - Vector3.new(0, 3, 0)
+			wait() -- Add a small delay to prevent an infinite loop without yielding
+		end
+		Part:Destroy()
+	end)
+	start.Completed:Wait()
+	twstatus = false
+end
 
-local Area = {
+local Quest_Pos = {
 	["First-pirate"] = {
 		["Name"] = "BanditQuest1",
+		["Island"] = "Default",
+		["Monster"] = "Bandit",
 		["Level"] = 1,
 		["Position"] = CFrame.new(1060, 17, 1547),
 		["Vector3"] = Vector3.new(1060, 17, 1547)
 	},
 	["First-marine"] = {
-		["Name"] = "marin",
+		["Name"] = "MarineQuest1",
+		["Island"] = "Default",
 		["Level"] = 1,
 		["Position"] = CFrame.new(-2708.57739, 23.2188244, 2105.34814, 0.683746457, 0, 0.729719639, 0, 1, 0, -0.729719639, 0, 0.683746457),
 		["Vector3"] = Vector3.new(-2708.57739, 23.2188244, 2105.34814)
 	},
 	["Second"] = {
 		["Name"] = "JungleQuest",
+		["Monster"] = "Monkey",
+		["Island"] = "Jungle",
 		["Level"] = 10,
 		["Position"] = CFrame.new(-1496, 39, 35),
 		["Vector3"] = Vector3.new(-1496, 39, 35)
 	},
 	["Third"] = {
 		["Name"] = "JungleQuest",
+		["Monster"] = "Gorilla",
+		["Island"] = "Jungle",
 		["Level"] = 15,
 		["Position"] = CFrame.new(-1237, 6, -486),
 		["Vector3"] = Vector3.new(-1237, 6, -486)
 	},
 	["Fourth"] = {
 		["Name"] = "BuggyQuest1",
+		["Monster"] = "Pirate",
+		["Island"] = "Pirate Village",
 		["Level"] = 30,
 		["Position"] = CFrame.new(-1140, 5, 3828),
 		["Vector3"] = Vector3.new(-1140, 5, 3828)
 	},
 	["Fifth"] = {
 		["Name"] = "BuggyQuest1",
+		["Monster"] = "Brute",
+		["Island"] = "Pirate Village",
 		["Level"] = 40,
 		["Position"] = CFrame.new(-1140, 5, 3828),
 		["Vector3"] = Vector3.new(-1140, 5, 3828)
 	},
 	["Sixth"] = {
 		["Name"] = "DesertQuest",
+		["Monster"] = "Desert Bandit",
+		["Island"] = "Desert",
 		["Level"] = 60,
 		["Position"] = CFrame.new(897, 7, 4388),
 		["Vector3"] = Vector3.new(897, 7, 4388)
 	},
 	["Seventh"] = {
 		["Name"] = "DesertQuest",
+		["Monster"] = "Desert Officer",
+		["Island"] = "Desert",
 		["Level"] = 75,
 		["Position"] = CFrame.new(897, 7, 4388),
 		["Vector3"] = Vector3.new(897, 7, 4388)
 	},
 	["Eighth"] = {
 		["Name"] = "SnowQuest",
+		["Monster"] = "Snow Bandit",
+		["Island"] = "Snow",
 		["Level"] = 90,
 		["Position"] = CFrame.new(1386, 87, -1297),
 		["Vector3"] = Vector3.new(1386, 87, -1297)
@@ -306,15 +343,45 @@ local function Auto_Kill_Mob(name)
 end
 
 local function Auto_Kaitun()
-
+	
 end
 
-local function FarmLevel(Level)
-	local MyLevel = game.Players.LocalPlayer.Data.Level.Value
-	if MyLevel < Level then
-		return true
-	else
-		return false
+local function FarmLevel()
+	local MyLevel = game:GetService("Players").LocalPlayer.Data.Level.Value
+	local Island = game:GetService("Players").LocalPlayer.Data.LastSpawnPoint.Value
+	local EnemiesFol = workspace.Enemies
+	local Quest = game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest
+	local PlayerTeam = tostring(game:GetService("Players").LocalPlayer.Team)
+	for i,v in pairs(Quest_Pos) do
+		if MyLevel >= v["Level"] then
+			if MyLevel < 10 then
+				if PlayerTeam == "Pirates" then
+					if Island ~= V["Island"] then
+						tweenwarp(v["Position"], v["Vector3"])
+					end
+				elseif PlayerTeam == "Marines" then
+					if Island ~= v["Island"] then
+						tweenwarp(v["Position"], v["Vector3"])
+					end
+				end
+			else
+				if Island ~= v["Island"] then
+					tweenwarp(v["Position"], v["Vector3"])
+				else
+					if Quest.Visible == false then
+						tweenwarp(v["Position"], v["Vector3"])
+					else
+						for i,e in pairs(EnemiesFol) do
+							if e.Name == Mob_Pos[v["Monster"]]["Name"] then
+								if (e.HumanoidRootPart.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 50 then
+									tweenwarp(e.HumanoidRootPart.CFrame + Vector3.new(0, 5, 0), e.HumanoidRootPart.Position)
+								end
+							end
+						end
+					end
+				end
+			end
+		end
 	end
 end
 
@@ -347,37 +414,23 @@ local function UnEquip_Tool()
 	game.Players.LocalPlayer.Character.Humanoid:UnequipTools()
 end
 
-local function tweenwarp(pos, vec)
-	local infowarp = TweenInfo.new(((vec - game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).Magnitude / 350), Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
-	local tween = Tween:Create(game.Players.LocalPlayer.Character.HumanoidRootPart, infowarp, {CFrame = pos})
-	tween:Play()
-	local twstatus = true
-	start:Play()
-	spawn(function()
-		local Part = Instance.new("Part")
-		Part.Parent = game:GetService("Workspace")
-		Part.Position = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position
-		Part.Size = Vector3.new(5, 1, 5)
-		Part.Anchored = true
-		while twstatus do
-			Part.Position = game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position - Vector3.new(0, 3, 0)
-			wait(0.1) -- Add a small delay to prevent an infinite loop without yielding
-		end
-		Part:Destroy()
-	end)
-	start.Completed:Wait()
-	twstatus = false
+local function Main()
+    if Auto_Kaitun then
+        Auto_Kaitun()
+    end
+    if Auto_Farm then
+        FarmLevel()
+    end
+    if Auto_Second_World then
+        Auto_Second_World()
+    end
+    if Auto_Third_World then
+        Auto_Third_World()
+    end
+    if Auto_Equip then
+        UnEquip_Tool()
+    end
 end
-
-
-spawn(function()
-	while wait() do
-		Main()
-	end
-end)
-
-
-
 
 
 --[ Lib UI ]
@@ -465,7 +518,7 @@ TpSection:CreateDropdown({Name = "Select Auto Farm Boss", List = {"First-pirate"
 end})
 TpSection:CreateButton({Name = "Teleport", Callback = function()
 	if areaTPSelect ~= "" then
-		tweenwarp(Area[areaTPSelect]["Position"], Area[areaTPSelect]["Vector3"])
+		tweenwarp(Quest_Pos[areaTPSelect]["Position"], Quest_Pos[areaTPSelect]["Vector3"])
 	end
 end})
 
@@ -605,8 +658,9 @@ Stats:CreateTextbox({Name = "Point Stats", Value = 1, Callback = function(Value)
 	Point_Stats = Value
 end})
 
-spawn(function()
-	while wait() do
-		Main()
-	end
-end)
+
+
+--[ Load Function ]
+while Wait() do
+	Main()
+end
