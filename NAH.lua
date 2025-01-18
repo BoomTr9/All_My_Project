@@ -3,72 +3,266 @@ if not game:IsLoaded() then
 	GameLoadGui.Text = 'Wait Game Loading'
 	game.Loaded:Wait()
 	GameLfoadGui:Destroy()
-	task.wait()
+	wait()
 end
 
 --[ Setting ]
-_G.Setting = {
-	["Auto_Kaitun"] = false,
-	["Auto_Farm"] = false,
-	["Auto_Second_World"] = false,
-	["Auto_Third_World"] = false,
-	["Auto_Tool_Select"] = "",
-	["Auto_Equip"] = false,
-	["Point_Stats"] = 1,
-	["Auto_Status"] = {
-		["Melee"] = false,
-		["Defense"] = false,
-		["Sword"] = false,
-		["Gun"] = false,
-		["Fruit"] = false
+_G.Settings = {
+	Main = {
+		["Auto Farm Level"] = false,
+		["Fast Auto Farm Level"] = false,
+
+		--[Mob Aura]
+
+		["Distance Mob Aura"] = 1000, -- {Max : 5000} 
+		["Mob Aura"] = false,
+
+		--[World 1]
+		["Auto New World"] = false,
+		["Auto Saber"] = false,
+		["Auto Pole"] = false,
+
+		["Auto Buy Ablility"] = false,
+
+		--[World 2]
+		["Auto Third Sea"] = false,
+		["Auto Factory"] = false,
+		["Auto Factory Hop"] = false,
+		["Auto Bartilo Quest"] = false,
+
+		["Auto True Triple Katana"] = false,
+		["Auto Rengoku"] = false,
+		["Auto Swan Glasses"] = false,
+		["Auto Dark Coat"] = false,
+		["Auto Ectoplasm"] = false,
+
+		["Auto Buy Legendary Sword"] = false,
+		["Auto Buy Enchanment Haki"] = false,
+
+		--[World 3]
+		["Auto Holy Torch"] = false,
+		["Auto Buddy Swords"] = false,
+		["Auto Farm Boss Hallow"] = false,
+		["Auto Rainbow Haki"] = false,
+		["Auto Elite Hunter"] = false,
+		["Auto Musketeer Hat"] = false,
+		["Auto Buddy Sword"] = false,
+		["Auto Farm Bone"] = false,
+		["Auto Ken-Haki V2"] = false,
+		["Auto Cavander"] = false,
+		["Auto Yama Sword"] = false,
+		["Auto Tushita Sword"] = false,
+		["Auto Serpent Bow"] = false,
+		["Auto Dark Dagger"] = false,
+		["Auto Cake Prince"] = false,
+		["Auto Dough V2"] = false,
+		["Auto Random Bone"] = false,
+
+		--[For God Human]
+
+		["Auto Fish Tail Sea 1"] = false,
+		["Auto Fish Tail Sea 3"] = false,
+		["Auto Magma Ore Sea 2"] = false,
+		["Auto Magma Ore Sea 1"] = false,
+		["Auto Mystic Droplet"] = false,
+		["Auto Dragon Scales"] = false,
+
 	},
-	["Random_Fruit"] = false,
-	["Select_Auto_Buy_Fruit"] = (""),
-	["Auto_Buy_Fruit"] = false,
-	["Auto_Get_Chest"] = false,
+	FightingStyle = {
+		["Auto God Human"] = false,
+		["Auto Superhuman"] = false,
+		["Auto Electric Claw"] = false,
+		["Auto Death Step"] = false,
+		["Auto Fully Death Step"] = false,
+		["Auto SharkMan Karate"] = false,
+		["Auto Fully SharkMan Karate"] = false,
+		["Auto Dragon Talon"] = false,
+	},
+	Boss = {
+		["Auto All Boss"] = false,
+		["Auto Boss Select"] = false,
+		["Select Boss"] = {},
+
+		["Auto Quest"] = false,
+	},
+	Mastery = {
+		["Select Multi Sword"] = {},
+		["Farm Mastery SwordList"] = false,
+		["Auto Farm Fruit Mastery"] = false,
+		["Auto Farm Gun Mastery"] = false,
+		["Mob Health (%)"] = 15,
+	},
+	Configs = {
+		["Double Quest"] = false,
+		["Bypass TP"] = false,
+		["Select Team"] = {"Pirate"}, --{Pirate,Marine}
+
+
+		["Fast Attack"] = true,
+		["Fast Attack Type"] = {"Fast"}, --{Normal,Fast,Slow}
+
+		["Select Weapon"] = {},
+
+
+		--[Misc Configs]
+		["Auto Haki"] = true,
+		["Distance Auto Farm"] = 20, --{Max : 50}
+		["Camera Shaker"] = false,
+
+		--[Skill Configs]
+		["Skill Z"] = true,
+		["Skill X"] = true,
+		["Skill C"] = true,
+		["Skill V"] = true,
+
+		--[Mob Configs]
+		["Show Hitbox"] = false,
+		["Bring Mob"] = true,
+		["Disabled Damage"] = false,
+
+	},
+	Stat = {
+		--[Auto Stats]
+		["Enabled Auto Stats"] = false,
+		["Auto Stats Kaitun"] = false,
+
+		["Select Stats"] = {"Melee"}, --{Max Stats,Melee,Defense,Sword,Devil Fruit,Gun}
+		["Point Select"] = 3, --{Recommended , Max : 9}
+
+		--[Auto Redeem Code]
+
+		["Enabled Auto Redeem Code"] = false,
+		["Select Level Redeem Code"] = 1, --{Max : 2400}
+	},
+
+	Misc = {
+		["No Soru Cooldown"] = false,
+		["No Dash Cooldown"] = false,
+
+		["Infinities Geppo"] = false,
+		["Infinities Energy"] = false,
+
+		["No Fog"] = false,
+		["Wall-TP"] = false,
+
+		["Fly"] = false,
+		["Fly Speed"] = 1,
+
+		--[Server]
+		["Auto Rejoin"] = true,
+	},
+	Teleport = {
+		["Teleport to Sea Beast"] = false,
+		["Island TP"] = {},
+	},
+
+	Fruits = {
+		["Auto Buy Random Fruits"] = false,
+		["Auto Store Fruits"] = false,
+
+		["Select Devil Fruits"] = {}, -- {"Bomb-Bomb","Spike-Spike","Chop-Chop","Spring-Spring","Kilo-Kilo","Spin-Spin","Kilo-Kilo","Spin-Spin","Bird: Falcon","Smoke-Smoke","Flame-Flame","Ice-Ice","Sand-Sand","Dark-Dark","Revive-Revive","Diamond-Diamond","Light-Light","Love-Love","Rubber-Rubber","Barrier-Barrier","Magma-Magma","Door-Door","Quake-Quake","Human-Human: Buddha","String-String","Bird-Bird: Phoenix","Rumble-Rumble","Paw-Paw","Gravity-Gravity","Dough-Dough","Shadow-Shadow","Venom-Venom","Control-Control","Soul-Soul","Dragon-Dragon"}
+		["Auto Buy Devil Fruits Sniper"] = false,
+	},
+
+	Raids = {
+		["Auto Raids"] = false,
+
+		["Kill Aura"] = false,
+		["Auto Awakened"] = false,
+		["Auto Next Place"] = false,
+
+		["Select Raids"] = {}, -- {"Flame","Ice","Quake","Light","Dark","String","Rumble","Magma","Human: Buddha","Sand","Bird: Phoenix","Dough"},
+	},
+
+	Combat = {
+		["Fov Size"] = 200,
+		["Show Fov"] = false,
+		["Aimbot Skill"] = false,
+	},
+
+	HUD = {
+		["FPS"] = 60,
+		["LockFPS"] = true,
+		["Boost FPS Windows"] = false,
+		['White Screen'] = false,
+	}
+}
+
+--[ Variable Status ]
+local Item_Variable = {
 	["Saber"] = false,
-	["Select_Auto_Farm_Boss"] = (""),
-	["Auto_Farm_Boss"] = false
+	["Pole"] = false,
+	["Buy Ablility"] = false,
+	["Bartilo Quest"] = false,
+	["True Triple Katana"] = false,
+	["Rengoku"] = false,
+	["Swan Glasses"] = false,
+	["Dark Coat"] = false,
+	["Ectoplasm"] = false,
+	["Buy Legendary Sword"] = false,
+	["Buy Enchanment Haki"] = false,
+	["Holy Torch"] = false,
+	["Buddy Swords"] = false,
+	["Farm Boss Hallow"] = false,
+	["Rainbow Haki"] = false,
+	["Elite Hunter"] = false,
+	["Musketeer Hat"] = false,
+	["Buddy Sword"] = false,
+	["Farm Bone"] = false,
+	["Ken-Haki V2"] = false,
+	["Cavander"] = false,
+	["Yama Sword"] = false,
+	["Tushita Sword"] = false,
+	["Serpent Bow"] = false,
+	["Dark Dagger"] = false,
+	["Cake Prince"] = false,
+	["Dough V2"] = false,
+	["Fish Tail Sea 1"] = false,
+	["Fish Tail Sea 3"] = false,
+	["Magma Ore Sea 2"] = false,
+	["Magma Ore Sea 1"] = false,
+	["Mystic Droplet"] = false,
+	["Dragon Scales"] = false
 }
 
-local ChooseTeam = ""
-local Auto_Kaitun = false
-local Auto_Farm = false
-local Auto_Second_World = false
-local Auto_Third_World = false
-
-local Auto_Tool_Select = ""
-local Auto_Equip = false
-
-local Point_Stats = 1
-local Auto_Status = {
-	Melee = false,
-	Defense = false,
-	Sword = false,
-	Gun = false,
-	Fruit = false
+local FightStyle_Variable = {
+	["God Human"] = false,
+	["Superhuman"] = false,
+	["Electric Claw"] = false,
+	["Death Step"] = false,
+	["Fully Death Step"] = false,
+	["SharkMan Karate"] = false,
+	["Fully SharkMan Karate"] = false,
+	["Dragon Talon"] = false,
 }
 
-local Random_Fruit = false
+local Stats_Variable = {
+	["Melee"] = 1,
+	["Defense"] = 1,
+	["Sword"] = 1,
+	["Devil Fruit"] = 1,
+	["Gun"] = 1
+}
 
-local Select_Auto_Buy_Fruit = ("")
-local Auto_Buy_Fruit = false
-
-local Auto_Get_Chest = false
-
-local Saber = false
-
-local Select_Auto_Farm_Boss = ("")
-local Auto_Farm_Boss = false
-
-local Walk_On_Water = false
-
-local areaTPSelect = ""
+local World_Variable = {
+	["New World"] = false,
+	["Third World"] = false
+}
 
 --[ V ]
 local Tween = game:GetService("TweenService")
 local MyLevel = game.Players.LocalPlayer.Data.Level.Value
 local AreaON = game:GetService("Players").LocalPlayer.Data.LastSpawnPoint.Value
+
+local Tool = _G.Settings.Configs["Select Weapon"] or nil
+local backpack = game.Players.LocalPlayer.Backpack
+
+local Afk = false
+
+local FarmStatus = false
+local UsePoint = 1
+
+
 
 --[ Function ]
 local function tweenwarp(pos, vec)
@@ -90,6 +284,17 @@ local function tweenwarp(pos, vec)
 	end)
 	start.Completed:Wait()
 	twstatus = false
+end
+
+local function Equip_Tool(name)
+	local tool = game.Players.LocalPlayer.Backpack:FindFirstChild(name)
+	if tool then
+		game.Players.LocalPlayer.Character.Humanoid:EquipTool(tool)
+	end
+end
+
+local function UnEquip_Tool()
+	game.Players.LocalPlayer.Character.Humanoid:UnequipTools()
 end
 
 local Quest_Pos = {
@@ -166,6 +371,8 @@ local Quest_Pos = {
 	},
 	["Ninth"] = {
 		["Name"] = "SnowQuest",
+		["Monster"] = "Snowman",
+		["Island"] = "Snow",
 		["Level"] = 100,
 		["Position"] = CFrame.new(1386, 87, -1297),
 		["Vector3"] = Vector3.new(1386, 87, -1297)
@@ -335,48 +542,97 @@ local Mob_Pos = {
 	}
 }
 
+local Island_Pos = {
+	["Jungle"] = {
+		["Position"] = CFrame.new(-1446.5421142578125, 61.88697052001953, -32.100074768066406),
+		["Vector3"] = Vector3.new(-1446.5421142578125, 61.88697052001953, -32.100074768066406)
+	},
+	["Pirate Starter"] = {
+		["Position"] = CFrame.new(1036.7008056640625, 80.6564712524414, 1594.43603515625),
+		["Vector3"] = Vector3.new(1036.7008056640625, 80.6564712524414, 1594.43603515625)
+	},
+	["Desert"] = {
+		["Position"] = CFrame.new(897, 7, 4388),
+		["Vector3"] = Vector3.new(897, 7, 4388)
+	},
+	["Snow"] = {
+		["Position"] = CFrame.new(1386, 87, -1297),
+		["Vector3"] = Vector3.new(1386, 87, -1297)
+	},
+	["Sky"] = {
+		["Position"] = CFrame.new(-4842, 718, -2623),
+		["Vector3"] = Vector3.new(-4842, 718, -2623)
+	},
+	["Prisoner"] = {
+		["Position"] = CFrame.new(5308, 2, 474),
+		["Vector3"] = Vector3.new(5308, 2, 474)
+	},
+	["Colosseum"] = {
+		["Position"] = CFrame.new(-1576, 8, -2985),
+		["Vector3"] = Vector3.new(-1576, 8, -2985)
+	},
+	["Magma"] = {
+		["Position"] = CFrame.new(-5316, 12, 8517),
+		["Vector3"] = Vector3.new(-5316, 12, 8517)
+	},
+	["Fishman"] = {
+		["Position"] = CFrame.new(61123, 19, 1569),
+		["Vector3"] = Vector3.new(61123, 19, 1569)
+	}
+}
+
+
 local function Auto_Kill_Mob(name)
 	local Mob = workspace.Enemies:FindFirstChild(name)
-	if Mob and (Mob.HumanoidRootPart.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 50 then
+	local plr = game.Players.LocalPlayer
+	local char = plr.Character or plr.CharacterAdded:Wait()
+	if Mob and (Mob.HumanoidRootPart.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude >= 100 then
 		tweenwarp(Mob.HumanoidRootPart.CFrame + Vector3.new(0, 5, 0), Mob.HumanoidRootPart.Position)
+	else
+		while wait() do
+			if Mob and Mob:FindFirstChild("Humanoid") and Mob.Humanoid.Health > 0 then
+				char.HumanoidRootPart.CFrame = Mob.HumanoidRootPart.CFrame * CFrame.new(0, 0, -5)
+				pcall(function()
+					game:GetService'VirtualUser':CaptureController()
+					game:GetService'VirtualUser':Button1Down(Vector2.new(0,1,0,1))
+				end)
+			else
+				break
+			end
+		end
 	end
 end
 
-local function Auto_Kaitun()
-	
-end
-
-local function FarmLevel()
+local function FarmLevel(S)
+	print("Farm Level")
 	local MyLevel = game:GetService("Players").LocalPlayer.Data.Level.Value
 	local Island = game:GetService("Players").LocalPlayer.Data.LastSpawnPoint.Value
-	local EnemiesFol = workspace.Enemies
 	local Quest = game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest
 	local PlayerTeam = tostring(game:GetService("Players").LocalPlayer.Team)
-	for i,v in pairs(Quest_Pos) do
-		if MyLevel >= v["Level"] then
-			if MyLevel < 10 then
-				if PlayerTeam == "Pirates" then
-					if Island ~= V["Island"] then
-						tweenwarp(v["Position"], v["Vector3"])
+	Equip_Tool(Tool)
+
+	while S do
+		Wait()
+		for i,v in pairs(Quest_Pos) do
+			if MyLevel >= v["Level"] and MyLevel < v["Level"] then
+				if MyLevel < 10 then
+					if PlayerTeam == "Pirates" then
+						if Island ~= v["Island"] then
+							tweenwarp(v["Position"], v["Vector3"])
+						end
+					elseif PlayerTeam == "Marines" then
+						if Island ~= v["Island"] then
+							tweenwarp(v["Position"], v["Vector3"])
+						end
 					end
-				elseif PlayerTeam == "Marines" then
+				else
 					if Island ~= v["Island"] then
 						tweenwarp(v["Position"], v["Vector3"])
-					end
-				end
-			else
-				if Island ~= v["Island"] then
-					tweenwarp(v["Position"], v["Vector3"])
-				else
-					if Quest.Visible == false then
-						tweenwarp(v["Position"], v["Vector3"])
 					else
-						for i,e in pairs(EnemiesFol) do
-							if e.Name == Mob_Pos[v["Monster"]]["Name"] then
-								if (e.HumanoidRootPart.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 50 then
-									tweenwarp(e.HumanoidRootPart.CFrame + Vector3.new(0, 5, 0), e.HumanoidRootPart.Position)
-								end
-							end
+						if Quest.Visible == false then
+							tweenwarp(v["Position"], v["Vector3"])
+						else
+							Auto_Kill_Mob(v["Monster"])
 						end
 					end
 				end
@@ -387,7 +643,7 @@ end
 
 local function Auto_Second_World()
 	local MyLevel = game.Players.LocalPlayer.Data.Level.Value
-	if MyLevel >= 10 then
+	if MyLevel >= 700 then
 		return true
 	else
 		return false
@@ -403,35 +659,17 @@ local function Auto_Third_World()
 	end
 end
 
-local function Equip_Tool(name)
-	local tool = game.Players.LocalPlayer.Backpack:FindFirstChild(name)
-	if tool then
-		game.Players.LocalPlayer.Character.Humanoid:EquipTool(tool)
-	end
+local function BypassAntiAfk()
+	game:GetService("Players").LocalPlayer.Idled:connect(function()
+		game:GetService("VirtualUser"):Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+		wait(1)
+		game:GetService("VirtualUser"):Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+	end)
 end
 
-local function UnEquip_Tool()
-	game.Players.LocalPlayer.Character.Humanoid:UnequipTools()
-end
+local function Auto_Holy_Torch()
 
-local function Main()
-    if Auto_Kaitun then
-        Auto_Kaitun()
-    end
-    if Auto_Farm then
-        FarmLevel()
-    end
-    if Auto_Second_World then
-        Auto_Second_World()
-    end
-    if Auto_Third_World then
-        Auto_Third_World()
-    end
-    if Auto_Equip then
-        UnEquip_Tool()
-    end
 end
-
 
 --[ Lib UI ]
 local library = loadstring(game:GetObjects("rbxassetid://7657867786")[1].Source)()
@@ -446,79 +684,139 @@ local GeneralTab = PepsisWorld:CreateTab({Name = "General"})
 local FarmTab = PepsisWorld:CreateTab({Name = "Farm"})
 local TpTab = PepsisWorld:CreateTab({Name = "Teleport"})
 local PvpTab = PepsisWorld:CreateTab({Name = "Pvp"})
+local MiscTab = PepsisWorld:CreateTab({Name = "Misc"})
 
 --[ GeneralTab ]
 local MainSection = GeneralTab:CreateSection({Name = "Main"})
-local StatusSection = GeneralTab:CreateSection({Name = "Status"})
-local AutoSection = GeneralTab:CreateSection({Name = "Auto"})
-local BossSection = GeneralTab:CreateSection({Name = "Boss"})
+local ItemSection = GeneralTab:CreateSection({Name = "Item", Side = "Left"})
+local WorldSection = GeneralTab:CreateSection({Name = "World", Side = "Right"})
+local FightStyleSection = GeneralTab:CreateSection({Name = "Fighting Style", Side = "Right"})
+local StatsSection = GeneralTab:CreateSection({Name = "Stats", Side = "Right"})
 
-MainSection:CreateToggle({Name = "Auto Kaitun", Callback = function(Value)
-	Auto_Kaitun = true
-end})
+MainSection:AddLabel({Text = "Name: "..game.Players.LocalPlayer.Name})
+MainSection:AddLabel({Text = "Level: "..game.Players.LocalPlayer.Data.Level.Value})
+MainSection:AddLabel({Text = "Race: "..game:GetService("Players").LocalPlayer.Data.Race.Value})
+MainSection:AddLabel({Text = "Fruit: "..game:GetService("Players").LocalPlayer.Data.DevilFruit.Value})
+MainSection:AddLabel({Text = "Beli: "..game.Players.LocalPlayer.Data.Beli.Value})
+MainSection:AddLabel({Text = "Fragment: "..game.Players.LocalPlayer.Data.Fragments.Value})
 
-MainSection:CreateToggle({Name = "Auto Farm", Callback = function(Value)
-	Auto_Farm = true
-end})
 
-MainSection:CreateToggle({Name = "Auto Second World", Callback = function(Value)
-	Auto_Second_World = true
-end})
+for _, v in pairs(Item_Variable) do
+	if v == false then
+		ItemSection:AddLabel({Text = "❌ ".._})
+	else
+		ItemSection:AddLabel({Text = "✅ ".._})
+	end
+end
 
-MainSection:CreateToggle({Name = "Auto Third World", Callback = function(Value)
-	Auto_Third_World = true
-end})
+for _, v in pairs(World_Variable) do
+	if v == false then
+		WorldSection:AddLabel({Text = "❌ ".._})
+	else
+		WorldSection:AddLabel({Text = "✅ ".._})
+	end	
+end
 
-MainSection:CreateDropdown({Name = "Select Auto Tool", List = {"Sword", "Gun", "Fruit"}, Callback = function(Value)
-	Auto_Tool_Select = Value
-end})
+for _, v in pairs(FightStyle_Variable) do
+	if v == false then
+		FightStyleSection:AddLabel({Text = "❌ ".._})
+	else
+		FightStyleSection:AddLabel({Text = "✅ ".._})
+	end
+end
 
-MainSection:CreateToggle({Name = "Auto Equip", Callback = function(Value)
-	Auto_Equip = Value
-end})
-
-StatusSection:CreateSlider({Name = "Point Stats", Min = 1, Max = 5, Callback = function(Value)
-	Point_Stats = Value
-end})
-
-AutoSection:CreateToggle({Name = "Auto Pole", Callback = function(Value)
-	Auto_Pole = Value
-end})
-
-AutoSection:CreateToggle({Name = "Auto Pole Hop", Callback = function(Value)
-	Auto_Status["Melee"] = Value
-end})
-
-AutoSection:CreateToggle({Name = "Auto Ancientone Quest", Callback = function(Value)
-	Auto_Ancientone_Quest = Value
-end})
-
+for _, v in pairs(Stats_Variable) do
+	StatsSection:AddLabel({Text = _..": "..v})
+end
 --[ FarmTab ]
 local FarmSection = FarmTab:CreateSection({Name = "Farm"})
-FarmSection:CreateToggle({Name = "Auto Farm", Callback = function(Value)
-	_G.Setting["Auto_Farm"] = Value
+local SettingFarmSection = FarmTab:CreateSection({Name = "Setting", Side = "Right"})
+local FarmItemSection = FarmTab:CreateSection({Name = "Item", Side = "Right"})
+
+--[ FarmSection ]
+FarmSection:CreateToggle({Name = "Auto Farm Level", Default  = _G.Settings.Main["Auto Farm Level"], Callback = function(Value)
+	FarmLevel(Value)
 end})
-FarmSection:CreateToggle({Name = "Auto Second World", Callback = function(Value)
-	_G.Setting["Auto_Second_World"] = Value
+FarmSection:CreateToggle({Name = "Auto Second World", Default = _G.Settings.Main["Auto Second World"], Callback = function(Value)
+	
 end})
-FarmSection:CreateToggle({Name = "Auto Third World", Callback = function(Value)
-	_G.Setting["Auto_Third_World"] = Value
+FarmSection:CreateToggle({Name = "Auto Third World", Default = _G.Settings.Main["Auto Third World"], Callback = function(Value)
+	
 end})
-FarmSection:CreateToggle({Name = "Auto Farm Boss", Callback = function(Value)
-	_G.Setting["Auto_Farm_Boss"] = Value
+
+--[ SettingFarmSection ]
+SettingFarmSection:CreateDropdown({Name = "Tool", Default = _G.Settings.Configs["Select Weapon"], List = backpack:GetChildren(), Callback = function(Value)
+	Tool = Value
 end})
-FarmSection:CreateDropdown({Name = "Select Auto Farm Boss", List = {"First-pirate", "First-marine", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth", "Ninth", "Tenth", "Eleventh", "Twelveth", "Thirteenth", "Fourteenth", "Fifteenth", "Sixteenth", "Seventeenth", "Eighteenth", "Nineteenth"}, Callback = function(Value)
-	_G.Setting["Select_Auto_Farm_Boss"] = Value
+SettingFarmSection:CreateDropdown({Name = "Farm Type", Default = _G.Settings.Main["Farm Type"], List = {"Normal", "Fast", "Super Fast"}, Callback = function(Value)
+	_G.Settings.Main["Farm Type"] = Value
+end})
+
+--[ ItemSection ]
+FarmItemSection:CreateToggle({Name = "Auto Holy Torch", Default = _G.Settings.Main["Auto Holy Torch"], Callback = function(Value)
+	if Value == true then
+		Auto_Holy_Torch()
+	end
+end})
+FarmItemSection:CreateToggle({Name = "Auto Buddy Swords", Callback = function(Value)
+	_G.Settings.Main["Auto Buddy Swords"] = Value
+end})
+FarmItemSection:CreateToggle({Name = "Auto Dark Coat", Callback = function(Value)
+	_G.Settings.Main["Auto Dark Coat"] = Value
+end})
+FarmItemSection:CreateToggle({Name = "Auto Ectoplasm", Callback = function(Value)
+	_G.Settings.Main["Auto Ectoplasm"] = Value
+end})
+FarmItemSection:CreateToggle({Name = "Auto Buy Legendary Sword", Callback = function(Value)
+	_G.Settings.Main["Auto Buy Legendary Sword"] = Value
+end})
+FarmItemSection:CreateToggle({Name = "Auto Buy Enchanment Haki", Callback = function(Value)
+	_G.Settings.Main["Auto Buy Enchanment Haki"] = Value
+end})
+FarmItemSection:CreateToggle({Name = "Auto Rainbow Haki", Callback = function(Value)
+	_G.Settings.Main["Auto Rainbow Haki"] = Value
+end})
+FarmItemSection:CreateToggle({Name = "Auto Elite Hunter", Callback = function(Value)
+	_G.Settings.Main["Auto Elite Hunter"] = Value
+end})
+FarmItemSection:CreateToggle({Name = "Auto Musketeer Hat", Callback = function(Value)
+	_G.Settings.Main["Auto Musketeer Hat"] = Value
+end})
+FarmItemSection:CreateToggle({Name = "Auto Buddy Sword", Callback = function(Value)
+	_G.Settings.Main["Auto Buddy Sword"] = Value
+end})
+
+local FarmMasterySection = FarmTab:CreateSection({Name = "Farm Mastery"})
+FarmMasterySection:CreateToggle({Name = "Farm Mastery SwordList", Callback = function(Value)
+	_G.Setting["Farm_Mastery_SwordList"] = Value
+end})
+FarmMasterySection:CreateToggle({Name = "Auto Farm Fruit Mastery", Callback = function(Value)
+	_G.Setting["Auto_Farm_Fruit_Mastery"] = Value
+end})
+FarmMasterySection:CreateToggle({Name = "Auto Farm Gun Mastery", Callback = function(Value)
+	_G.Setting["Auto_Farm_Gun_Mastery"] = Value
+end})
+FarmMasterySection:CreateSlider({Name = "Mob Health (%)", Min = 1, Max = 100, Callback = function(Value)
+	_G.Setting["Mob_Health_(%)"] = Value
 end})
 
 --[ TpTab ]
+
+--[ Teleport ]
 local TpSection = TpTab:CreateSection({Name = "Teleport"})
-TpSection:CreateDropdown({Name = "Select Auto Farm Boss", List = {"First-pirate", "First-marine", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth", "Ninth", "Tenth", "Eleventh", "Twelveth", "Thirteenth", "Fourteenth", "Fifteenth", "Sixteenth", "Seventeenth", "Eighteenth", "Nineteenth"}, Callback = function(Value)
-	areaTPSelect = Value
+local IslandList = {}
+spawn(function()
+	for i,v in pairs(Island_Pos) do
+		table.insert(IslandList, i)
+	end
+end)
+
+TpSection:CreateDropdown({Name = "Select Island", Default = _G.Settings.Teleport["Island TP"], List = IslandList, Callback = function(Value)
+	_G.Settings.Teleport["Island TP"] = Value
 end})
 TpSection:CreateButton({Name = "Teleport", Callback = function()
-	if areaTPSelect ~= "" then
-		tweenwarp(Quest_Pos[areaTPSelect]["Position"], Quest_Pos[areaTPSelect]["Vector3"])
+	if _G.Settings.Teleport["Island TP"] then
+		tweenwarp(Island_Pos[_G.Settings.Teleport["Island TP"]]["Position"], Island_Pos[_G.Settings.Teleport["Island TP"]]["Vector3"])
 	end
 end})
 
@@ -603,9 +901,7 @@ PvpSection:CreateSlider({Name = "Fov Size", Min = 0, Max = 1000, Callback = func
 	end)
 end})
 
-
 local Stats = PvpTab:CreateSection({Name = "Stats"})
-
 Stats:CreateButton({Name = "Reset status", Callback = function()
 	local args = {
 		[1] = "resetstat"
@@ -613,7 +909,6 @@ Stats:CreateButton({Name = "Reset status", Callback = function()
 
 	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
 end})
-
 Stats:CreateButton({Name = "Melee", Callback = function()
 	local args = {
 		[1] = "strenght"
@@ -621,7 +916,6 @@ Stats:CreateButton({Name = "Melee", Callback = function()
 
 	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
 end})
-
 Stats:CreateButton({Name = "Defense", Callback = function()
 	local args = {
 		[1] = "defense"
@@ -629,7 +923,6 @@ Stats:CreateButton({Name = "Defense", Callback = function()
 
 	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
 end})
-
 Stats:CreateButton({Name = "Sword", Callback = function()
 	local args = {
 		[1] = "sword"
@@ -637,7 +930,6 @@ Stats:CreateButton({Name = "Sword", Callback = function()
 
 	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
 end})
-
 Stats:CreateButton({Name = "Gun", Callback = function()
 	local args = {
 		[1] = "gun"
@@ -645,7 +937,6 @@ Stats:CreateButton({Name = "Gun", Callback = function()
 
 	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
 end})
-
 Stats:CreateButton({Name = "Fruit", Callback = function()
 	local args = {
 		[1] = "fruit"
@@ -653,14 +944,27 @@ Stats:CreateButton({Name = "Fruit", Callback = function()
 
 	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
 end})
-
-Stats:CreateTextbox({Name = "Point Stats", Value = 1, Callback = function(Value)
-	Point_Stats = Value
+Stats:CreateSlider({Name = "Use Point", Min = 1, Max = 100, Default = UsePoint, Callback = function(Value)
+	UsePoint = Value
 end})
 
+--[ MiscTab ]
+local MiscSection = MiscTab:CreateSection({Name = "Misc"})
+MiscSection:CreateToggle({Name = "Walk On Water", Callback = function(Value)
+	
+end})
+MiscSection:CreateToggle({Name = "Bypass Anti-Afk", Callback = function(Value)
+	while Value do
+		game:GetService("VirtualUser"):Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+		wait(1)
+		game:GetService("VirtualUser"):Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+		Wait()
+	end
+end})
+MiscSection:CreateButton({Name = "Bypass TP", Callback = function()
+	local args = {
+		[1] = "teleport"
+	}
 
-
---[ Load Function ]
-while Wait() do
-	Main()
-end
+	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+end})
